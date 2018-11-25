@@ -12,7 +12,7 @@
     <!-- redis数据源 -->
     <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
         <property name="maxIdle" value="${redis.maxIdle}"/>
-        <property name="minIdle" value="${redis.maxIdle}"/>
+        <property name="minIdle" value="${redis.minIdle}"/>
         <property name="maxTotal" value="${redis.maxTotal}"/>
         <property name="maxWaitMillis" value="${redis.maxWaitMillis}"/>
         <property name="blockWhenExhausted" value="${redis.blockWhenExhausted}"/>

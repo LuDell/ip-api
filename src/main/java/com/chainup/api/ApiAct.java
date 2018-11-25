@@ -65,7 +65,7 @@ public class ApiAct {
             connection = connectionFactory.newConnection();
             Channel channel = connection.createChannel();
 
-            AMQP.BasicProperties basicProperties = new AMQP.BasicProperties.Builder().expiration("60000").build();
+            AMQP.BasicProperties basicProperties = new AMQP.BasicProperties.Builder().expiration("180000").build();
 
             //新建交换机
             channel.exchangeDeclare("okay","topic",false,false,null);
