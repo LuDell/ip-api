@@ -26,3 +26,4 @@ hs_err_pid*
 ip-api.iml
 .idea
 target
+src/main/resources/config.properties

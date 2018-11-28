@@ -43,7 +43,7 @@ public class ApiAct {
         Connection connection = null;
         try {
 
-            String ip = "45.77.82.85";
+            String ip = "66.42.77.153";
 
             reader = new DatabaseReader.Builder(url.openStream()).withCache(new CHMCache()).build();
             InetAddress ipAddress = InetAddress.getByName(ip);
