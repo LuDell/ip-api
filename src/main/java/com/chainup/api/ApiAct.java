@@ -10,8 +10,9 @@ import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 @RestController
 public class ApiAct {
 
-    private static final Logger logger = LoggerFactory.getLogger(ApiAct.class);
+    private static final Logger logger = LogManager.getLogger(ApiAct.class);
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -43,7 +44,7 @@ public class ApiAct {
         Connection connection = null;
         try {
 
-            String ip = "66.42.77.153";
+            String ip = "144.34.237.147";
 
             reader = new DatabaseReader.Builder(url.openStream()).withCache(new CHMCache()).build();
             InetAddress ipAddress = InetAddress.getByName(ip);
@@ -60,7 +61,7 @@ public class ApiAct {
             logger.info("经度={}，纬度={}",location.getLatitude(),location.getLongitude());
 
             redisTemplate.opsForValue().set(ip,city.getNames());
-            redisTemplate.expire(ip,60, TimeUnit.SECONDS);
+            redisTemplate.expire(ip,60, TimeUnit.MINUTES);
 
             connection = connectionFactory.newConnection();
             Channel channel = connection.createChannel();
