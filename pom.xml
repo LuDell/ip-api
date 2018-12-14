@@ -77,6 +77,11 @@
       <artifactId>log4j-api</artifactId>
       <version>${log4j2}</version>
     </dependency>
+    <dependency>
+      <groupId>com.lmax</groupId>
+      <artifactId>disruptor</artifactId>
+      <version>3.3.6</version>
+    </dependency>
 
     <dependency>
       <groupId>junit</groupId>
