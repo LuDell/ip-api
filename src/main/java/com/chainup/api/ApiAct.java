@@ -6,11 +6,7 @@ import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.record.City;
 import com.maxmind.geoip2.record.Country;
 import com.maxmind.geoip2.record.Location;
-import com.rabbitmq.client.AMQP;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
-
+import com.rabbitmq.client.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,13 +65,28 @@ public class ApiAct {
             AMQP.BasicProperties basicProperties = new AMQP.BasicProperties.Builder().expiration("180000").build();
 
             //新建交换机
-            channel.exchangeDeclare("okay","topic",false,false,null);
+            channel.exchangeDeclare("okay", BuiltinExchangeType.TOPIC,false,false,null);
             //创建队列
-            channel.queueDeclare("okay_queue",false,false,false,null);
+            AMQP.Queue.DeclareOk declareOk = channel.queueDeclare("okay_queue",false,false,false,null);
             channel.queueBind("okay_queue", "okay", "okay");
             channel.confirmSelect();
+            channel.addConfirmListener(new ConfirmListener() {
+                @Override
+                public void handleAck(long deliveryTag, boolean multiple) throws IOException {
+                    System.out.println("----------Ack----------");
+                    System.out.println(deliveryTag);
+                    System.out.println(multiple);
+                }
 
-            channel.basicPublish("okay","okay", basicProperties, "hello world, i'm golang".getBytes("UTF-8"));
+                @Override
+                public void handleNack(long deliveryTag, boolean multiple) throws IOException {
+                    System.out.println("----------Nack----------");
+                    System.out.println(deliveryTag);
+                    System.out.println(multiple);
+                }
+            });
+
+            channel.basicPublish("okay","okay",true, basicProperties, "hello world, i'm golang".getBytes("UTF-8"));
 
             if(channel.waitForConfirms()) {
                 logger.info("消息发送成功");

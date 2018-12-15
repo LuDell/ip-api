@@ -2,9 +2,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit.xsd">
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
 
     <context:annotation-config />
 
@@ -50,6 +49,10 @@
         <property name="username" value="${rabbitmq.username}"/>
         <property name="password" value="${rabbitmq.password}"/>
         <property name="virtualHost" value="/"/>
+        <!--网络异常自动连接恢复-->
+        <property name="automaticRecoveryEnabled" value="true"/>
+        <!--每10秒尝试重试连接一次-->
+        <property name="networkRecoveryInterval" value="10000"/>
     </bean>
 
 </beans>
